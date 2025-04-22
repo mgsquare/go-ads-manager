@@ -19,7 +19,7 @@ var (
 
 func InitDB() {
 	var err error
-	err = godotenv.Load("C:\\Users\\mgsqu\\Desktop\\Manhattan-Tech-CA\\go-ads-manager\\.env")
+	err = godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}

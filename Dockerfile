@@ -1,22 +1,23 @@
 FROM golang:1.24-alpine AS build
 
+ENV CGO_ENABLED=0 GOOS=linux
+
 WORKDIR /app
 
-COPY go-ads-manager/go.mod go-ads-manager/go.sum ./
+COPY go.mod go.sum ./
+
 RUN go mod tidy
 
-COPY go-ads-manager/ ./
+COPY . .
 
 RUN go build -o server ./cmd/server
 
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificates
-
 WORKDIR /root/
 
 COPY --from=build /app/server .
 
-EXPOSE 8080
+COPY --from=build /app/.env .env
 
 CMD ["./server"]

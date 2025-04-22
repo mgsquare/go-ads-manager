@@ -5,12 +5,13 @@ services:
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: your_database_name
+      POSTGRES_PASSWORD: a
+      POSTGRES_DB: Man-Tech
     ports:
       - "5432:5432"  
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - app_network
 
@@ -22,8 +23,23 @@ services:
     networks:
       - app_network
 
+  ads-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    container_name: ads_manager
+    ports:
+      - "8008:8008"
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    networks:
+      - app_network
+
 volumes:
-  postgres_data:  
+  postgres_data:
 
 networks:
   app_network:

@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load("C:\\Users\\mgsqu\\Desktop\\Manhattan-Tech-CA\\go-ads-manager\\.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file %v", err)
 	}
@@ -40,7 +40,7 @@ func main() {
 
 	api.RegisterRoutes(adHandler, clickHandler, analyticsHandler)
 
-	port := os.Getenv("APP_PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8008"
 	}
